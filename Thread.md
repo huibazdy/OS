@@ -4,6 +4,15 @@
 
 
 ```C
+int pthread_create(pthread_t *_restricted_newthread,
+                  _constpthread_attr_t *_restrict_attr,
+                  void *(*_start_routine)(void*),
+                  void *_restrict_arg)
+```
+
+
+
+```C
 #include<stdio.h>
 #include<pthread.h>
 
