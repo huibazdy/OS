@@ -4,32 +4,41 @@
 
 
 ```C
-int pthread_create(pthread_t *_restricted_newthread,
-                  _constpthread_attr_t *_restrict_attr,
-                  void *(*_start_routine)(void*),
-                  void *_restrict_arg)
-```
-
-
-
-```C
+/*在用户空间实现线程，《现代操作系统（第四版）》*/
+#include<pthread>
 #include<stdio.h>
-#include<pthread.h>
+#include<stdlib.h>
 
-void * thread_func(void* _arg)
+#define NUMBER_OF_THREADS 10
+
+void *print_hello_world(void *tid)
 {
-    unsigned int *arg = _arg;
-    printf("new thread:my tid is %u\n",*arg);
+    printf("Hello World.Greeting from thread%d\n",tid);
+    pthread_exit(NULL);
 }
 
-void main()
+int main(int argc,char *argv[])
 {
-    pthread_t new_thread_id;
-    pthread_create(&new_thread_id,NULL,thread_func,&new_thread_id);
-    printf("main thread:my tid is %u\n",pthread_self());
-    usleep(100);
+    /*主程序创建10个线程，然后退出*/
+    pthread_t threads[NUMBRR_OF_THREADS];
+    int status,i;
+
+    for(i = 0; i < NUMBER_OF_THREADS; i++)
+    {
+        printf("Main here.Creating thread%d\n",i);
+        status = pthread_create(&thread[i],NULL,print_hello_world,(void*)i);
+
+        if(status != 0)
+        {
+            printf("Oops.pthread_create returned error code%d\n",status);
+            exit(-1);
+        }
+    }
+    exit(-1);
 }
 ```
+
+
 
 
 
